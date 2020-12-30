@@ -1,5 +1,5 @@
 threads=`cat /proc/cpuinfo | grep "model name" | wc -l`
-cpuModel=`cat /proc/cpuinfo | grep "model name" -m 1 | sed -nr '/model name/ s/.*:\s*(.*) @ .*/\1/p'`
+cpuModel=`lscpu | grep "Model name"  | sed 's/   Model name:\|//'`
 memoryInfo=`dmidecode -t 17 | awk 'BEGIN { FS=":"; OFS="\t" } /Size|Locator|Speed|Manufacturer|Serial Number|Part Number/ { gsub(/^[ \t]+/,"",$2); line = (line ? line OFS : "") $2 } /^$/ { print line; line="" }' | grep -iv "no module"`
 mainboardBrand=`dmidecode -t 1 | grep "Manufacturer" | sed 's/Manufacturer\|//'`
 mainboardName=`dmidecode -t 1 | grep "Product Name" | sed 's/Product Name\|//'`
